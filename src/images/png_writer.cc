@@ -4,8 +4,7 @@
 #include <cassert>
 #include <cstring>
 #include <fstream>
-#include <iostream>
-#include <math.h>
+#include <cmath>
 
 #include "images/crc.h"
 #include "images/png.h"
@@ -30,7 +29,7 @@ void PNGWriter::WriteStream(std::ostream &stream) const {
   WriteFooter(stream);
 }
 
-void PNGWriter::WriteSignature(std::ostream &stream) const {
+void PNGWriter::WriteSignature(std::ostream &stream) {
   stream.write((char *)PNG_SIGNATURE, 8);
 }
 
@@ -49,7 +48,7 @@ void PNGWriter::WriteHeader(std::ostream &stream) const {
   WriteChunk(stream, 13, "IHDR", data);
 }
 
-void PNGWriter::WriteChunk(std::ostream &stream, const int length, const std::string &type, const void *data) const {
+void PNGWriter::WriteChunk(std::ostream &stream, const int length, const std::string &type, const void *data) {
   assert(length < pow(2, 31));
 
   uint32_t network_order_length = htonl((uint32_t)length);
@@ -63,7 +62,7 @@ void PNGWriter::WriteChunk(std::ostream &stream, const int length, const std::st
   stream.write((char *)&crc, sizeof(crc));
 }
 
-void PNGWriter::WriteFooter(std::ostream &stream) const {
+void PNGWriter::WriteFooter(std::ostream &stream) {
   char data[0];
   WriteChunk(stream, 0, "IEND", data);
 }
@@ -73,7 +72,7 @@ void PNGWriter::WriteImageData(std::ostream &stream) const {
   // with a filter byte (0 for none) before each scanline.
   int uncompressed_length = canvas_->width() * canvas_->height() * 3
       + canvas_->height();
-  uint8_t *uncompressed_idata = new uint8_t[uncompressed_length];
+  auto *uncompressed_idata = new uint8_t[uncompressed_length];
 
   int i = 0;
   for (int y = 0; y < canvas_->height(); ++y) {
@@ -88,7 +87,7 @@ void PNGWriter::WriteImageData(std::ostream &stream) const {
   }
 
   uLongf compressed_length = uncompressed_length + 100;
-  uint8_t *compressed_data = new uint8_t[compressed_length];
+  auto *compressed_data = new uint8_t[compressed_length];
   compress(compressed_data, &compressed_length, uncompressed_idata, uncompressed_length);
 
   WriteChunk(stream, compressed_length, "IDAT", compressed_data);

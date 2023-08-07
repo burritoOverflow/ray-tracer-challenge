@@ -13,13 +13,13 @@ std::optional<Intersection> Intersections::Hit() const {
 
   std::optional<Intersection> hit = std::nullopt;
   for (std::vector<Intersection>::const_iterator i = intersections_.begin();
-    i != intersections_.end(); ++i) {
-      if ((*i).T() < 0) {
-        continue;
-      }
-      if (hit == std::nullopt || hit.value().T() > (*i).T()) {
-        hit = std::optional<Intersection>(*i);
-      }
+       i != intersections_.end(); ++i) {
+    if ((*i).T() < 0) {
+      continue;
+    }
+    if (hit == std::nullopt || hit.value().T() > (*i).T()) {
+      hit = std::optional<Intersection>(*i);
+    }
   }
   return hit;
 }

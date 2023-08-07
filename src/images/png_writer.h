@@ -8,7 +8,7 @@
 
 class PNGWriter {
  public:
-  PNGWriter(Canvas *canvas);
+  explicit PNGWriter(Canvas *canvas);
   ~PNGWriter() = default;
 
   // Writes contents of canvas into *filename*.
@@ -20,16 +20,16 @@ class PNGWriter {
   Canvas *canvas_;
 
   // Writes PNG signature 8 bits.
-  void WriteSignature(std::ostream &stream) const;
+  static void WriteSignature(std::ostream &stream) ;
   // Writes Header that must follow the signature.
   void WriteHeader(std::ostream &stream) const;
   // Writes Image Data. May write multiple chunks.
   void WriteImageData(std::ostream &stream) const;
   // Writes footer that ends the PNG file.
-  void WriteFooter(std::ostream &stream) const;
+  static void WriteFooter(std::ostream &stream) ;
 
   // Writes data for a chunk. Compression and must be done by caller. length must be less than 2^31.
-  void WriteChunk(std::ostream &stream, const int length, const std::string &type, const void *data) const;
+  static void WriteChunk(std::ostream &stream, const int length, const std::string &type, const void *data) ;
 };
 
 #endif    // RTC_DISPLAY_PNG_WRITER_H
