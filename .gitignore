@@ -35,3 +35,6 @@
 build/*
 wsl/*
 .vscode/*
+
+.cache/
+compile_commands.json

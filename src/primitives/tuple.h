@@ -4,8 +4,8 @@
 #include <string>
 
 class Tuple {
- public:
-  Tuple() {};
+public:
+  Tuple(){};
   Tuple(float x, float y, float z, float w);
   ~Tuple() = default;
 
@@ -28,9 +28,11 @@ class Tuple {
   // Debug Printing for Tests.
   void Debug() const;
   std::string DebugString() const;
-  friend void PrintTo(const Tuple& tuple, std::ostream* os) { *os << tuple.DebugString(); };
+  friend void PrintTo(const Tuple &tuple, std::ostream *os) {
+    *os << tuple.DebugString();
+  };
 
- private:
+private:
   float x_, y_, z_, w_;
 };
 
@@ -44,4 +46,4 @@ Tuple operator/(const Tuple t, float div);
 Tuple Point(float x, float y, float z);
 Tuple Vector(float x, float y, float z);
 
-#endif    // RTC_PRIMITIVES_TUPLE_H_
+#endif // RTC_PRIMITIVES_TUPLE_H_
